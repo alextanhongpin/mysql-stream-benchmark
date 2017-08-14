@@ -1,0 +1,18 @@
+{
+  "name": "mysql-stream",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "alextanhongpin <alextan220990@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "express": "^4.15.4",
+    "faker": "^4.1.0",
+    "mysql": "^2.14.1",
+    "prom-client": "^10.0.3"
+  }
+}

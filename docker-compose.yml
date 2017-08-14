@@ -1,0 +1,64 @@
+version: '3'
+services:
+  mysql:
+    image: mysql
+    ports:
+    - 3306:3306
+    volumes:
+    - ./data/mysql:/var/lib/mysql
+    environment:
+    - MYSQL_ROOT_PASSWORD=123456
+    # - MYSQL_ROOT_HOST=docker.for.mac.localhost
+    # - MYSQL_USER=john
+    # - MYSQL_PASSWORD=123456
+    - MYSQL_DATABASE=demo
+    networks:
+      all:
+
+  prometheus:
+    image: quay.io/prometheus/prometheus:latest
+    ports:
+     - 9090:9090
+    volumes:
+    - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      all:
+    
+  grafana:
+    image: grafana/grafana
+    ports:
+    - 3000:3000
+    volumes:
+    - ./data/grafana:/var/lib/grafana
+    networks:
+      all:
+  #
+  # mysqld-exporter
+  #
+
+  mysqld-exporter:
+    image: prom/mysqld-exporter
+    ports:
+    - 9104:9104 
+    depends_on:
+    - mysql
+    links:
+    - mysql 
+    command: ["-web.listen-address=:9104", "-collect.global_status=true", "-collect.global_variables=false", "-collect.slave_status=false", "-collect.info_schema.tables=true", "-collect.binlog_size=false", "-collect.info_schema.processlist=false", "-collect.info_schema.userstats=false", "-collect.info_schema.tables=false", "-collect.auto_increment.columns=false", "-collect.info_schema.tablestats=false", "-collect.perf_schema.file_events=false", "-collect.perf_schema.eventsstatements=false", "-collect.perf_schema.indexiowaits=false", "-collect.perf_schema.tableiowaits=false", "-collect.perf_schema.tablelocks=false", "-collect.perf_schema.eventswaits=false"]
+    environment:
+    - DATA_SOURCE_NAME=root:123456@(mysql:3306)/
+    networks:
+      all:
+    # - collect.auto_increment.columns=true
+  
+  # node:
+  #   build: .
+  #   ports:
+  #   - 4000:4000
+  #   links:
+  #   - mysql
+  #   networks:
+  #     all:
+
+networks:
+  all:
