@@ -1,6 +1,4 @@
-FROM node:boron
+FROM node:latest
 
-ADD setup.js /
-ADD package.json /
-RUN npm install
-CMD ["node", "setup.js"]
+COPY . /
+CMD ["node", "--prof", "setup.js"]

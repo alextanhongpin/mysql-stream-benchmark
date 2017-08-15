@@ -13,6 +13,7 @@
     "express": "^4.15.4",
     "faker": "^4.1.0",
     "mysql": "^2.14.1",
-    "prom-client": "^10.0.3"
+    "prom-client": "^10.0.3",
+    "prometheus-plugin-cpu-stats": "^2.0.0"
   }
 }
